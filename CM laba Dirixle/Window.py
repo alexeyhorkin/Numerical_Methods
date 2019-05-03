@@ -132,10 +132,14 @@ def showtable():
 			V2 = SimplyIteration(a,b,c,d,2*n,2*m,f_main(0),f_main(1),f_main(2),f_main(3),f_main(4),eps,N_MAX)
 		print("Погрешность - ", GetMax(V,V2))
 	if GetMode() ==3:
-		print("Метод простой итерации:")
+		print("Метод простой итерации с вырезанной областью:")
 		a,b,c,d = f_test(-1)
 		if GetMode2()==0:
 			V = SimplyIteration_var2(a,b,c,d,n,m,f_test(0),f_test(1),f_test(2),f_test(3),f_test(4),eps,N_MAX)
+		if n%2!=0:
+			n+=1
+		if m%2!=0:
+			m+=1
 		V2 = Init_arr(a,b,c,d,f_test_real,n,m)
 		print("Погрешность - ", GetMax2(V,V2))
 	Main_table = Tbl.Table(f_inside,tuple(map(str,range(n+1))),V)

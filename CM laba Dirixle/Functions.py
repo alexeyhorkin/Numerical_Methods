@@ -90,7 +90,6 @@ def GetMax2(V,V2):
 	for i in range(n_edge):
 			for j in range(m_edge):
 				Mask[i][j] = 0
-	print(Mask)
 	return np.amax(np.abs((V-V2)*Mask))
 
 
@@ -181,6 +180,10 @@ def SimplyIteration_var2(a,b,c,d,n,m,f,m1,m2,m3,m4,eps, N_max):
 	N=0
 	r = np.array(())
 	eps_curr= 100
+	if n%2!=0:
+		n+=1
+	if m%2!=0:
+		m+=1
 	h = (b-a)/n
 	k = (d-c)/m
 	h1 = 1/h**2
