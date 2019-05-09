@@ -13,7 +13,7 @@ def f_test(var):
 	c = -1
 	d = 1
 	def f(x,y):
-		return -4
+		return 4
 	def m1(y):
 		return -y**2
 	def m2(y):
@@ -62,6 +62,36 @@ def f_main(var):
 		return m3
 	if var ==4:
 		return m4
+
+# def f_main(var):
+# 	a = 1
+# 	b = 2
+# 	c = 2
+# 	d = 3
+# 	def f(x,y):
+# 		return mt.e**(-x*y**2)
+# 	def m1(y):
+# 		return (y-2)*(y-3)
+# 	def m2(y):
+# 		return y*(m1(y))
+# 	def m3(x):
+# 		return x*(x-1)*(x-2)
+# 	def m4(x):
+# 		return (x-1)*(x-2)
+# 	if var ==-1:
+# 		return (a,b,c,d)
+# 	if var ==0:
+# 		return f
+# 	if var ==1:
+# 		return m1
+# 	if var ==2:
+# 		return m2
+# 	if var ==3:
+# 		return m3
+# 	if var ==4:
+# 		return m4
+
+
 
 def Init_arr(a,b,c,d,Funk,n,m):
 	x_arr = GetGrid(a,b,n)
@@ -130,7 +160,7 @@ def Yakobi(a,b,c,d,n,m,f,m1,m2,m3,m4,eps, N_max):
 			r = np.array(())
 			for i in range(1,n):
 				for j in range(1,m):
-					V[i][j] = (1/A)*(f(x_arr[i],y_arr[j])-h1*(VS[i-1][j]+VS[i+1][j])-k1*(VS[i][j-1]+VS[i][j+1]))
+					V[i][j] = (1/A)*(-f(x_arr[i],y_arr[j])-h1*(VS[i-1][j]+VS[i+1][j])-k1*(VS[i][j-1]+VS[i][j+1]))
 					r =np.append(r,abs(V[i][j]-VS[i][j]))
 			eps_curr = max(r)
 			N+=1
@@ -153,6 +183,7 @@ def SimplyIteration(a,b,c,d,n,m,f,m1,m2,m3,m4,eps, N_max):
 	A = -2*(h1+k1)
 	l_min , l_max =GetEigenValues(n,m,h,k) 
 	t = GetTay(l_min,l_max)
+	print("tau = ", t)
 	V = np.zeros((n+1,m+1))
 	for j in range(m+1):
 		V[0][j]= m1(y_arr[j])
@@ -166,7 +197,7 @@ def SimplyIteration(a,b,c,d,n,m,f,m1,m2,m3,m4,eps, N_max):
 			r = np.array(())
 			for i in range(1,n):
 				for j in range(1,m):
-					V[i][j] = VS[i][j] - t*(f(x_arr[i],y_arr[j])-h1*(VS[i-1][j]+VS[i+1][j])-A*VS[i][j]-k1*(VS[i][j-1]+VS[i][j+1]))
+					V[i][j] = VS[i][j] - t*(-f(x_arr[i],y_arr[j])-h1*(VS[i-1][j]+VS[i+1][j])-A*VS[i][j] -k1*(VS[i][j-1]+VS[i][j+1]))
 					r =np.append(r,abs(V[i][j]-VS[i][j]))
 			eps_curr = max(r)
 			N+=1
@@ -216,7 +247,7 @@ def SimplyIteration_var2(a,b,c,d,n,m,f,m1,m2,m3,m4,eps, N_max):
 					if i <n_edge and j<m_edge:
 						pass
 					else:  
-						V[i][j] = VS[i][j] - t*(f(x_arr[i],y_arr[j])-h1*(VS[i-1][j]+VS[i+1][j])-A*VS[i][j]-k1*(VS[i][j-1]+VS[i][j+1]))
+						V[i][j] = VS[i][j] - t*(-f(x_arr[i],y_arr[j])-h1*(VS[i-1][j]+VS[i+1][j])-A*VS[i][j]-k1*(VS[i][j-1]+VS[i][j+1]))
 						r =np.append(r,abs(V[i][j]-VS[i][j]))
 			eps_curr = max(r)
 			N+=1
