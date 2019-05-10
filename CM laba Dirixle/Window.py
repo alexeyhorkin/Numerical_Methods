@@ -67,19 +67,19 @@ l4 = tk.Label(f2,text = "N_MAX,m = ", font = "Arial 10", background='#9cb8e5')
 l4.pack(side = tk.LEFT)
 
 e1 = tk.Entry(f1, bd = 2)
-e1.insert(0,"10")
+e1.insert(0,"4")
 e1.pack(side = tk.RIGHT)
 
 e2 = tk.Entry(f2, bd = 2)
-e2.insert(0,"10")
+e2.insert(0,"4")
 e2.pack(side = tk.RIGHT)
 
 e3 = tk.Entry(f1, bd = 2)
-e3.insert(0,"0.001")
+e3.insert(0,"1e-12")
 e3.pack(side = tk.RIGHT)
 
 e4 = tk.Entry(f2, bd = 2)
-e4.insert(0,"100")
+e4.insert(0,"500")
 e4.pack(side = tk.RIGHT)
 
 var1 = tk.IntVar()
@@ -134,12 +134,11 @@ def showtable():
 	if GetMode() ==3:
 		print("Метод простой итерации с вырезанной областью:")
 		a,b,c,d = f_test(-1)
-		if GetMode2()==0:
-			V = SimplyIteration_var2(a,b,c,d,n,m,f_test(0),f_test(1),f_test(2),f_test(3),f_test(4),eps,N_MAX)
 		if n%2!=0:
 			n+=1
 		if m%2!=0:
 			m+=1
+		V = SimplyIteration_var2(a,b,c,d,n,m,f_test(0),f_test(1),f_test(2),f_test(3),f_test(4),eps,N_MAX)
 		V2 = Init_arr(a,b,c,d,f_test_real,n,m)
 		print("Погрешность - ", GetMax2(V,V2))
 	Main_table = Tbl.Table(f_inside,tuple(map(str,range(n+1))),V)

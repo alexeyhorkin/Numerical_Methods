@@ -35,49 +35,21 @@ def f_test(var):
 	if var ==4:
 		return m4
 
-def f_main(var):
-	a = -1
-	b = 1
-	c = -1
-	d = 1
-	def f(x,y):
-		return 	abs((mt.sin(mt.pi*x*y))**3)
-	def m1(y):
-		return -y**2 +1
-	def m2(y):
-		return -y**2 + 1
-	def m3(x):
-		return abs(mt.sin(mt.pi*x))
-	def m4(x):
-		return abs(mt.sin(mt.pi*x))
-	if var ==-1:
-		return (a,b,c,d)
-	if var ==0:
-		return f
-	if var ==1:
-		return m1
-	if var ==2:
-		return m2
-	if var ==3:
-		return m3
-	if var ==4:
-		return m4
-
 # def f_main(var):
-# 	a = 1
-# 	b = 2
-# 	c = 2
-# 	d = 3
+# 	a = -1
+# 	b = 1
+# 	c = -1
+# 	d = 1
 # 	def f(x,y):
-# 		return mt.e**(-x*y**2)
+# 		return 	abs((mt.sin(mt.pi*x*y))**3)
 # 	def m1(y):
-# 		return (y-2)*(y-3)
+# 		return -y**2 +1
 # 	def m2(y):
-# 		return y*(m1(y))
+# 		return -y**2 + 1
 # 	def m3(x):
-# 		return x*(x-1)*(x-2)
+# 		return abs(mt.sin(mt.pi*x))
 # 	def m4(x):
-# 		return (x-1)*(x-2)
+# 		return abs(mt.sin(mt.pi*x))
 # 	if var ==-1:
 # 		return (a,b,c,d)
 # 	if var ==0:
@@ -90,6 +62,34 @@ def f_main(var):
 # 		return m3
 # 	if var ==4:
 # 		return m4
+
+def f_main(var):
+	a = 1
+	b = 2
+	c = 2
+	d = 3
+	def f(x,y):
+		return -mt.e**(-x*y**2)
+	def m1(y):
+		return (y-2)*(y-3)
+	def m2(y):
+		return y*(m1(y))
+	def m3(x):
+		return x*(x-1)*(x-2)
+	def m4(x):
+		return (x-1)*(x-2)
+	if var ==-1:
+		return (a,b,c,d)
+	if var ==0:
+		return f
+	if var ==1:
+		return m1
+	if var ==2:
+		return m2
+	if var ==3:
+		return m3
+	if var ==4:
+		return m4
 
 
 
@@ -211,10 +211,6 @@ def SimplyIteration_var2(a,b,c,d,n,m,f,m1,m2,m3,m4,eps, N_max):
 	N=0
 	r = np.array(())
 	eps_curr= 100
-	if n%2!=0:
-		n+=1
-	if m%2!=0:
-		m+=1
 	h = (b-a)/n
 	k = (d-c)/m
 	h1 = 1/h**2
@@ -227,31 +223,35 @@ def SimplyIteration_var2(a,b,c,d,n,m,f,m1,m2,m3,m4,eps, N_max):
 	n_edge = int(n/2)
 	m_edge = int(m/2)
 	V = np.zeros((n+1,m+1))
+	# ГУ
+	for i in range(n+1):
+		V[i][-1] = m4(x_arr[i])
 	for j in range(m+1):
-		V[n_edge][j] = f_test_real(x_arr[n_edge],y_arr[j])
 		V[-1][j] = m2(y_arr[j])
-	for i in range(n + 1):
-		V[i][m_edge] = f_test_real(x_arr[i],y_arr[m_edge])
-		V[i][-1] = m4(x_arr[i]) 
-	for j in range(m_edge,m+1):
-		V[0][j] = m1(y_arr[j])
 	for i in range(n_edge,n+1):
 		V[i][0] = m3(x_arr[i])
-	VS = V.copy()
+	for j in range(m_edge,m+1):
+		V[0][j]= m1(y_arr[j])
+	for i in range(n_edge+1):
+		V[i][m_edge] = f_test_real(x_arr[i],y_arr[m_edge])
+	for j in range(m_edge+1):
+		V[n_edge][j] = f_test_real(x_arr[n_edge],y_arr[j])
 
+	VS = V.copy()
 	for i in tqdm(range(N_max)):
 		if (eps_curr>eps and N<N_max):
 			r = np.array(())
 			for i in range(1,n):
 				for j in range(1,m):
-					if i <n_edge and j<m_edge:
+					if i<n_edge+1 and j<n_edge+1:
 						pass
-					else:  
-						V[i][j] = VS[i][j] - t*(-f(x_arr[i],y_arr[j])-h1*(VS[i-1][j]+VS[i+1][j])-A*VS[i][j]-k1*(VS[i][j-1]+VS[i][j+1]))
+					else:
+						V[i][j] = VS[i][j] - t*(-f(x_arr[i],y_arr[j])-h1*(VS[i-1][j]+VS[i+1][j])-A*VS[i][j] -k1*(VS[i][j-1]+VS[i][j+1]))
 						r =np.append(r,abs(V[i][j]-VS[i][j]))
 			eps_curr = max(r)
 			N+=1
 			VS = V.copy()
+
 	print("eps - ", eps_curr)
 	print("count of steps - ", N)
 	return V
